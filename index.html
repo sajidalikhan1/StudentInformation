@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+    />
+    <style>
+      h1 {
+        text-align: center;
+      }
+      .btn {
+        float: right;
+        margin: 1vh;
+      }
+
+      /* Custom CSS for responsive design */
+      @media (max-width: 576px) {
+        .header {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-bottom: 20px;
+        }
+
+        .btn-secondary {
+          margin-top: 10px;
+        }
+      }
+
+      @media (min-width: 577px) and (max-width: 991px) {
+        .header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 30px;
+        }
+      }
+
+      @media (min-width: 992px) {
+        .header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 40px;
+        }
+      }
+    </style>
+  </head>
+
+  <body onload="studentTable()">
+    <br />
+    <h1>Student Information</h1>
+
+    <div class="container">
+      <!-- Button trigger modal -->
+      <button
+        type="button"
+        class="btn btn-secondary"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+      >
+        Add Student
+      </button>
+      <br />
+
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Student Information
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form id="studentForm" class="row g-2" novalidate>
+                <div class="col-md-6">
+                  <label for="name" class="form-label">Name</label>
+                  <input type="text" class="form-control" id="name" required />
+                  <div class="invalid-feedback">Please enter a name.</div>
+                </div>
+                <div class="col-md-6">
+                  <label for="email" class="form-label">E-mail</label>
+                  <input type="text" class="form-control" id="email" required />
+                  <div class="invalid-feedback">
+                    Please enter a valid email address.
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="phone" class="form-label">Phone</label>
+                  <input type="text" class="form-control" id="phone" required />
+                  <div class="invalid-feedback">
+                    Please enter a valid phone number.
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="city" class="form-label">City</label>
+                  <input type="text" class="form-control" id="city" required />
+                  <div class="invalid-feedback">Please enter a city.</div>
+                </div>
+                <div class="col-md-6">
+                  <label for="state" class="form-label">State</label>
+                  <input type="text" class="form-control" id="state" required />
+                  <div class="invalid-feedback">Please enter a state.</div>
+                </div>
+                <div class="col-md-6">
+                  <label for="country" class="form-label">Country</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="country"
+                    required
+                  />
+                  <div class="invalid-feedback">Please enter a country.</div>
+                </div>
+                <div class="col-md-6">
+                  <label for="pincode" class="form-label">Pin Code</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="pincode"
+                    required
+                  />
+                  <div class="invalid-feedback">Please enter a pin code.</div>
+                </div>
+                <div class="col-md-6">
+                  <label for="gender" class="form-label">Gender</label>
+                  <select class="form-select" id="gender" required>
+                    <option selected disabled value="">Choose...</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Others</option>
+                  </select>
+                  <div class="invalid-feedback">Please select a gender.</div>
+                </div>
+
+                <div class="col-12">
+                  <button
+                    id="submitButton"
+                    class="btn btn-primary"
+                    type="button"
+                  >
+                    Submit
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <table class="table-bordered table border-dark">
+        <thead class="table-info">
+          <tr>
+            <th>S.no</th>
+            <th>Name</th>
+            <th>E-mail</th>
+            <th>Phone</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Country</th>
+            <th>Pin Code</th>
+            <th>Gender</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="studentTableBody"></tbody>
+      </table>
+    </div>
+
+    <div
+      class="modal fade"
+      id="confirmModal"
+      tabindex="-1"
+      aria-labelledby="confirmModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmModalLabel">Confirm Deletion</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to delete this student?
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button
+              id="confirmModalYesBtn"
+              type="button"
+              class="btn btn-danger"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      // Regular expression for email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      // Regular expression for phone number validation
+      const phoneRegex = /^\d{10}$/;
+
+      // Regular expression for pin code validation
+      const pincodeRegex = /^\d{6}$/;
+
+      document
+        .getElementById("submitButton")
+        .addEventListener("click", submitForm);
+
+      function submitForm(event) {
+        const form = document.getElementById("studentForm");
+        const emailInput = document.getElementById("email");
+        const phoneInput = document.getElementById("phone");
+        const pincodeInput = document.getElementById("pincode");
+
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+
+        form.classList.add("was-validated");
+
+        if (form.checkValidity()) {
+          const name = document.getElementById("name").value;
+          const email = emailInput.value;
+          const phone = phoneInput.value;
+          const city = document.getElementById("city").value;
+          const state = document.getElementById("state").value;
+          const country = document.getElementById("country").value;
+          const pincode = pincodeInput.value;
+          const gender = document.getElementById("gender").value;
+
+          // Validate email using regex
+          if (!emailRegex.test(email)) {
+            emailInput.classList.add("is-invalid");
+            return;
+          } else {
+            emailInput.classList.remove("is-invalid");
+          }
+
+          // Validate phone number using regex
+          if (!phoneRegex.test(phone)) {
+            phoneInput.classList.add("is-invalid");
+            return;
+          } else {
+            phoneInput.classList.remove("is-invalid");
+          }
+
+          // Validate pin code using regex
+          if (!pincodeRegex.test(pincode)) {
+            pincodeInput.classList.add("is-invalid");
+            return;
+          } else {
+            pincodeInput.classList.remove("is-invalid");
+          }
+
+          const student = {
+            name,
+            email,
+            phone,
+            city,
+            state,
+            country,
+            pincode,
+            gender,
+          };
+
+          // Save student object to local storage
+          let students = JSON.parse(localStorage.getItem("students")) || [];
+          students.push(student);
+          localStorage.setItem("students", JSON.stringify(students));
+
+          // Close the modal
+          const modal = bootstrap.Modal.getInstance(
+            document.getElementById("exampleModal")
+          );
+          modal.hide();
+
+          // Reset the form
+          form.reset();
+          form.classList.remove("was-validated");
+
+          // Update the table with the stored data
+          updateTable();
+        }
+      }
+
+      document.getElementById("email").addEventListener("input", function () {
+        const emailInput = document.getElementById("email");
+        const emailErrorMessage = document.getElementById("emailErrorMessage");
+        const email = emailInput.value;
+
+        if (email === "") {
+          emailInput.classList.remove("is-valid");
+          emailInput.classList.remove("is-invalid");
+          emailErrorMessage.textContent = "";
+        } else if (!emailRegex.test(email)) {
+          emailInput.classList.remove("is-valid");
+          emailInput.classList.add("is-invalid");
+          emailErrorMessage.textContent = "Invalid email address";
+        } else {
+          emailInput.classList.remove("is-invalid");
+          emailInput.classList.add("is-valid");
+          emailErrorMessage.textContent = "";
+        }
+      });
+
+      document.getElementById("phone").addEventListener("input", function () {
+        const phoneInput = document.getElementById("phone");
+        const phoneErrorMessage = document.getElementById("phoneErrorMessage");
+        const phone = phoneInput.value;
+
+        if (phone === "") {
+          phoneInput.classList.remove("is-valid");
+          phoneInput.classList.remove("is-invalid");
+          phoneErrorMessage.textContent = "";
+        } else if (!phoneRegex.test(phone)) {
+          phoneInput.classList.remove("is-valid");
+          phoneInput.classList.add("is-invalid");
+          phoneErrorMessage.textContent = "Invalid phone number";
+        } else {
+          phoneInput.classList.remove("is-invalid");
+          phoneInput.classList.add("is-valid");
+          phoneErrorMessage.textContent = "";
+        }
+      });
+
+      document.getElementById("pincode").addEventListener("input", function () {
+        const pincodeInput = document.getElementById("pincode");
+        const pincodeErrorMessage = document.getElementById(
+          "pincodeErrorMessage"
+        );
+        const pincode = pincodeInput.value;
+
+        if (pincode === "") {
+          pincodeInput.classList.remove("is-valid");
+          pincodeInput.classList.remove("is-invalid");
+          pincodeErrorMessage.textContent = "";
+        } else if (!pincodeRegex.test(pincode)) {
+          pincodeInput.classList.remove("is-valid");
+          pincodeInput.classList.add("is-invalid");
+          pincodeErrorMessage.textContent = "Invalid pin code";
+        } else {
+          pincodeInput.classList.remove("is-invalid");
+          pincodeInput.classList.add("is-valid");
+          pincodeErrorMessage.textContent = "";
+        }
+      });
+
+      function updateTable() {
+        const students = JSON.parse(localStorage.getItem("students")) || [];
+        const tableBody = document.getElementById("studentTableBody");
+
+        // Clear the table body
+        tableBody.innerHTML = "";
+
+        // Generate table rows for each student
+        students.forEach((student, index) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${student.name}</td>
+      <td>${student.phone}</td>
+      <td>${student.email}</td>
+      <td>${student.city}</td>
+      <td>${student.state}</td>
+      <td>${student.country}</td>
+      <td>${student.pincode}</td>
+      <td>${student.gender}</td>
+      <td>
+        <button type="button" class="btn btn-danger btn-sm" onclick="deleteStudent(${index})">Delete</button>
+      </td>
+    `;
+
+          tableBody.appendChild(row);
+        });
+      }
+
+      function deleteStudent(index) {
+        const confirmModal = new bootstrap.Modal(
+          document.getElementById("confirmModal")
+        );
+        confirmModal.show();
+
+        const confirmModalYesBtn =
+          document.getElementById("confirmModalYesBtn");
+        confirmModalYesBtn.onclick = function () {
+          let students = JSON.parse(localStorage.getItem("students")) || [];
+          students.splice(index, 1);
+          localStorage.setItem("students", JSON.stringify(students));
+          updateTable();
+          confirmModal.hide();
+        };
+      }
+
+      // Update the table when the page loads
+      updateTable();
+    </script>
+  </body>
+</html>
